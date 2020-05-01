@@ -15,11 +15,22 @@ func (t *Tree) Insert(value int) {
 	t.root.insert(value)
 }
 
+// Search searching for given value inside the tree.
+func (t *Tree) Search(value int) bool {
+	if t.root != nil {
+		if t.root.value == value {
+			return true
+		}
+	}
+	return t.root.search(value)
+}
+
 // Node represents a value in the tree.
 type Node struct {
-	value int
-	left  *Node
-	right *Node
+	value  int
+	parent *Node
+	left   *Node
+	right  *Node
 }
 
 // insert adds the value into the tree.
@@ -37,6 +48,18 @@ func (n *Node) insert(value int) {
 			return
 		}
 		n.right.insert(value)
+	}
+}
+
+// search is searching for given value inside the tree.
+func (n *Node) search(value int) bool {
+	switch {
+	case value < n.value:
+		return n.left.search(value)
+	case value > n.value:
+		return n.right.search(value)
+	default:
+		return value == n.value
 	}
 }
 
